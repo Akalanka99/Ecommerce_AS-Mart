@@ -5,6 +5,7 @@
   import cookieParser from 'cookie-parser'
   import morgan from 'morgan'
   import helmet from 'helmet'
+  import connectDB from "./config/connectDB.js"
 
   const app = express();
   app.use(cors({
@@ -23,11 +24,14 @@
 
   app.get("/", (request,response) => {
       response.json({
-          message : "Server is running"
+          message : "Server is running"+ PORT
       })
   })
     
-
-  app.listen(PORT, () => {
-    console.log("Server is running on port", PORT)
+  connectDB().then(() => {
+    app.listen(PORT, () => {
+        console.log("Server is running on port", PORT)
+      })
   })
+
+  
